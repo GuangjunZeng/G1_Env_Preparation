@@ -6,7 +6,7 @@ Jetback版本: 6.2
 python版本：3.10
 
 ## 1. Install system packages required by PyTorch:
-  ‘’‘
+  ‘’‘bash
   sudo apt-get -y update; 
   sudo apt-get install -y  python3-pip libopenblas-dev;
   ’‘’
