@@ -6,9 +6,10 @@ Jetback版本: 6.2
 python版本：3.10
 
 ## 1. Install system packages required by PyTorch:
-
+  ‘’‘
   sudo apt-get -y update; 
   sudo apt-get install -y  python3-pip libopenblas-dev;
+  ’‘’
 
 ## 2. 安装 cusparselt ：
 官方文档以下指令不适用于较新的cuda版本
