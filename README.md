@@ -71,3 +71,45 @@ wget -q -O- https://developer.download.nvidia.com/compute/redist/jp/v62/pytorch/
   cmake ..
   make
   ```
+
+## 补充事项：
+
+  遇到ROS2相关问题，可以通过参数设置禁用ROS2
+
+  cd ~/yixuan/GR00T-WholeBodyControl/gear_sonic_deploy && \
+APP_EXE="$PWD/target/release/g1_deploy_onnx_ref" && \
+SDK_ROOT="$PWD/thirdparty/unitree_sdk2" && \
+SDK_LD="$SDK_ROOT/thirdparty/lib/aarch64:$SDK_ROOT/lib/aarch64" && \
+MODEL_DECODER="$PWD/policy/release/model_decoder.onnx" && \
+MODEL_ENCODER="$PWD/policy/release/model_encoder.onnx" && \
+MOTION_DIR="$PWD/reference/example/" && \
+OBS_CONFIG="$PWD/policy/release/observation_config.yaml" && \
+PLANNER_MODEL="$PWD/planner/target_vel/V2/planner_sonic.onnx" && \
+FASTRTPS_XML="$PWD/src/g1/g1_deploy_onnx_ref/config/fastrtps_profile.xml" && \
+env -i \
+HOME="$HOME" \
+USER="$USER" \
+TERM="$TERM" \
+PATH="/usr/bin:/bin:/usr/local/bin" \
+HAS_ROS2=0 \
+TensorRT_ROOT="${TensorRT_ROOT:-}" \
+CUDAToolkit_ROOT="/usr/local/cuda" \
+CUDA_HOME="/usr/local/cuda" \
+FASTRTPS_DEFAULT_PROFILES_FILE="$FASTRTPS_XML" \
+RMW_IMPLEMENTATION="rmw_fastrtps_cpp" \
+ROS_LOCALHOST_ONLY=1 \
+LD_LIBRARY_PATH="$SDK_LD:/usr/local/cuda/targets/aarch64-linux/lib:/usr/local/cuda/lib64:/usr/local/cuda/lib:/usr/lib/aarch64-linux-gnu/nvidia:/opt/onnxruntime/lib${TensorRT_ROOT:+:$TensorRT_ROOT/lib}" \
+"$APP_EXE" \
+enP8p1s0 \
+"$MODEL_DECODER" \
+"$MOTION_DIR" \
+--obs-config "$OBS_CONFIG" \
+--encoder-file "$MODEL_ENCODER" \
+--planner-file "$PLANNER_MODEL" \
+--input-type keyboard \
+--output-type all \
+--zmq-host localhost
+
+--input-type zmq_manager
+
+
